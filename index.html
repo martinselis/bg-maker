@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BG Maker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar" id="sidebar">
+            <h1>BG Maker</h1>
+
+            <!-- Dimensions -->
+            <section class="panel">
+                <h2>Canvas</h2>
+                <div class="field">
+                    <label>Preset</label>
+                    <select id="preset">
+                        <option value="1200x800">Tableau Default (1200×800)</option>
+                        <option value="1920x1080">Full HD (1920×1080)</option>
+                        <option value="1366x768">Laptop (1366×768)</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                </div>
+                <div class="field-row">
+                    <div class="field">
+                        <label>Width</label>
+                        <input type="number" id="width" value="1200" min="100" max="4000">
+                    </div>
+                    <div class="field">
+                        <label>Height</label>
+                        <input type="number" id="height" value="800" min="100" max="4000">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gradient -->
+            <section class="panel">
+                <h2>Gradient</h2>
+                <div class="field">
+                    <label>Stops</label>
+                    <div class="btn-group">
+                        <button class="btn active" data-stops="2">2 Colors</button>
+                        <button class="btn" data-stops="3">3 Colors</button>
+                    </div>
+                </div>
+                <div class="color-stops">
+                    <div class="field color-field" data-index="0">
+                        <label>Color 1</label>
+                        <div class="color-input">
+                            <input type="color" id="color0" value="#1a1a2e">
+                            <input type="text" id="hex0" value="#1a1a2e" maxlength="7">
+                        </div>
+                    </div>
+                    <div class="field color-field" data-index="1">
+                        <label>Color 2</label>
+                        <div class="color-input">
+                            <input type="color" id="color1" value="#16213e">
+                            <input type="text" id="hex1" value="#16213e" maxlength="7">
+                        </div>
+                    </div>
+                    <div class="field color-field" data-index="2" style="display:none">
+                        <label>Color 3</label>
+                        <div class="color-input">
+                            <input type="color" id="color2" value="#0f3460">
+                            <input type="text" id="hex2" value="#0f3460" maxlength="7">
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Type</label>
+                    <div class="btn-group">
+                        <button class="btn active" data-gradient="linear">Linear</button>
+                        <button class="btn" data-gradient="radial">Radial</button>
+                    </div>
+                </div>
+                <div class="field" id="angle-field">
+                    <label>Angle <span id="angle-val">135°</span></label>
+                    <input type="range" id="angle" min="0" max="360" value="135">
+                </div>
+            </section>
+
+            <!-- Pattern -->
+            <section class="panel">
+                <h2>Pattern Overlay</h2>
+                <div class="field">
+                    <label>Pattern</label>
+                    <select id="pattern">
+                        <option value="none">None</option>
+                        <option value="bubbles">Bubbles</option>
+                        <option value="honeycomb">Honeycomb</option>
+                        <option value="dots">Dots Grid</option>
+                        <option value="lines">Diagonal Lines</option>
+                        <option value="waves">Waves</option>
+                    </select>
+                </div>
+
+                <!-- Bubbles controls -->
+                <div class="pattern-controls" id="ctrl-bubbles" style="display:none">
+                    <div class="field">
+                        <label>Count <span id="bubbles-count-val">50</span></label>
+                        <input type="range" id="bubbles-count" min="1" max="200" value="50">
+                    </div>
+                    <div class="field-row">
+                        <div class="field">
+                            <label>Min Size</label>
+                            <input type="number" id="bubbles-min" value="5" min="1" max="200">
+                        </div>
+                        <div class="field">
+                            <label>Max Size</label>
+                            <input type="number" id="bubbles-max" value="40" min="1" max="200">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Opacity <span id="bubbles-opacity-val">0.15</span></label>
+                        <input type="range" id="bubbles-opacity" min="0" max="100" value="15">
+                    </div>
+                    <div class="field">
+                        <label>Blur <span id="bubbles-blur-val">0px</span></label>
+                        <input type="range" id="bubbles-blur" min="0" max="20" value="0">
+                    </div>
+                    <div class="field">
+                        <label>Color</label>
+                        <div class="color-input">
+                            <input type="color" id="bubbles-color" value="#ffffff">
+                            <input type="text" id="bubbles-color-hex" value="#ffffff" maxlength="7">
+                        </div>
+                    </div>
+                    <button class="btn btn-full" id="bubbles-randomize">🎲 Randomize</button>
+                </div>
+
+                <!-- Honeycomb controls -->
+                <div class="pattern-controls" id="ctrl-honeycomb" style="display:none">
+                    <div class="field">
+                        <label>Cell Size <span id="honeycomb-size-val">30</span></label>
+                        <input type="range" id="honeycomb-size" min="10" max="100" value="30">
+                    </div>
+                    <div class="field">
+                        <label>Line Thickness <span id="honeycomb-thickness-val">1</span></label>
+                        <input type="range" id="honeycomb-thickness" min="1" max="10" value="1">
+                    </div>
+                    <div class="field">
+                        <label>Opacity <span id="honeycomb-opacity-val">0.15</span></label>
+                        <input type="range" id="honeycomb-opacity" min="0" max="100" value="15">
+                    </div>
+                    <div class="field">
+                        <label>Style</label>
+                        <div class="btn-group">
+                            <button class="btn active" data-honeycomb-style="stroke">Stroke</button>
+                            <button class="btn" data-honeycomb-style="fill">Fill</button>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Color</label>
+                        <div class="color-input">
+                            <input type="color" id="honeycomb-color" value="#ffffff">
+                            <input type="text" id="honeycomb-color-hex" value="#ffffff" maxlength="7">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dots controls -->
+                <div class="pattern-controls" id="ctrl-dots" style="display:none">
+                    <div class="field">
+                        <label>Spacing <span id="dots-spacing-val">30</span></label>
+                        <input type="range" id="dots-spacing" min="5" max="100" value="30">
+                    </div>
+                    <div class="field">
+                        <label>Dot Size <span id="dots-size-val">3</span></label>
+                        <input type="range" id="dots-size" min="1" max="20" value="3">
+                    </div>
+                    <div class="field">
+                        <label>Opacity <span id="dots-opacity-val">0.15</span></label>
+                        <input type="range" id="dots-opacity" min="0" max="100" value="15">
+                    </div>
+                    <div class="field">
+                        <label>Color</label>
+                        <div class="color-input">
+                            <input type="color" id="dots-color" value="#ffffff">
+                            <input type="text" id="dots-color-hex" value="#ffffff" maxlength="7">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lines controls -->
+                <div class="pattern-controls" id="ctrl-lines" style="display:none">
+                    <div class="field">
+                        <label>Spacing <span id="lines-spacing-val">20</span></label>
+                        <input type="range" id="lines-spacing" min="5" max="100" value="20">
+                    </div>
+                    <div class="field">
+                        <label>Thickness <span id="lines-thickness-val">1</span></label>
+                        <input type="range" id="lines-thickness" min="1" max="10" value="1">
+                    </div>
+                    <div class="field">
+                        <label>Angle <span id="lines-angle-val">45°</span></label>
+                        <input type="range" id="lines-angle" min="0" max="180" value="45">
+                    </div>
+                    <div class="field">
+                        <label>Opacity <span id="lines-opacity-val">0.15</span></label>
+                        <input type="range" id="lines-opacity" min="0" max="100" value="15">
+                    </div>
+                    <div class="field">
+                        <label>Color</label>
+                        <div class="color-input">
+                            <input type="color" id="lines-color" value="#ffffff">
+                            <input type="text" id="lines-color-hex" value="#ffffff" maxlength="7">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Waves controls -->
+                <div class="pattern-controls" id="ctrl-waves" style="display:none">
+                    <div class="field">
+                        <label>Wave Count <span id="waves-count-val">5</span></label>
+                        <input type="range" id="waves-count" min="1" max="20" value="5">
+                    </div>
+                    <div class="field">
+                        <label>Amplitude <span id="waves-amplitude-val">30</span></label>
+                        <input type="range" id="waves-amplitude" min="5" max="100" value="30">
+                    </div>
+                    <div class="field">
+                        <label>Frequency <span id="waves-frequency-val">3</span></label>
+                        <input type="range" id="waves-frequency" min="1" max="20" value="3">
+                    </div>
+                    <div class="field">
+                        <label>Thickness <span id="waves-thickness-val">2</span></label>
+                        <input type="range" id="waves-thickness" min="1" max="10" value="2">
+                    </div>
+                    <div class="field">
+                        <label>Opacity <span id="waves-opacity-val">0.15</span></label>
+                        <input type="range" id="waves-opacity" min="0" max="100" value="15">
+                    </div>
+                    <div class="field">
+                        <label>Color</label>
+                        <div class="color-input">
+                            <input type="color" id="waves-color" value="#ffffff">
+                            <input type="text" id="waves-color-hex" value="#ffffff" maxlength="7">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Export -->
+            <section class="panel">
+                <h2>Export</h2>
+                <button class="btn btn-primary btn-full" id="export-jpeg">⬇ Download JPEG</button>
+                <button class="btn btn-full" id="export-png" style="margin-top:8px">⬇ Download PNG</button>
+            </section>
+        </aside>
+
+        <main class="preview">
+            <canvas id="canvas"></canvas>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
