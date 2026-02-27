@@ -13,6 +13,8 @@ const state = {
     stops: 2,
     gradientType: 'linear',
     centerX: 50,
+    centerA: 33,
+    centerB: 66,
     pattern: 'none',
     seed: 42,
     // Bubbles
@@ -72,15 +74,17 @@ function drawGradient() {
         grad = ctx.createLinearGradient(0, 0, w, 0);
     }
 
-    const mid = state.centerX / 100;
-
     if (state.stops === 2) {
+        const mid = state.centerX / 100;
         grad.addColorStop(0, state.colors[0]);
         grad.addColorStop(mid, state.colors[0]);
         grad.addColorStop(1, state.colors[1]);
     } else {
+        const a = Math.min(state.centerA, state.centerB) / 100;
+        const b = Math.max(state.centerA, state.centerB) / 100;
         grad.addColorStop(0, state.colors[0]);
-        grad.addColorStop(mid, state.colors[1]);
+        grad.addColorStop(Math.max(a, 0.001), state.colors[1]);
+        grad.addColorStop(Math.min(b, 0.999), state.colors[1]);
         grad.addColorStop(1, state.colors[2]);
     }
 
@@ -275,7 +279,11 @@ document.querySelectorAll('[data-stops]').forEach(btn => {
         document.querySelectorAll('[data-stops]').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         state.stops = parseInt(btn.dataset.stops);
-        document.querySelector('[data-index="2"]').style.display = state.stops === 3 ? '' : 'none';
+        const is3 = state.stops === 3;
+        document.querySelector('[data-index="2"]').style.display = is3 ? '' : 'none';
+        document.getElementById('center-field-2').style.display = is3 ? 'none' : '';
+        document.getElementById('center-field-3a').style.display = is3 ? '' : 'none';
+        document.getElementById('center-field-3b').style.display = is3 ? '' : 'none';
         render();
     });
 });
@@ -370,6 +378,8 @@ function wireNumber(id, stateKey) {
 
 // Gradient center
 wireRange('center-x', 'centerX', v => v + '%');
+wireRange('center-a', 'centerA', v => v + '%');
+wireRange('center-b', 'centerB', v => v + '%');
 
 // Bubbles
 wireRange('bubbles-count', 'bubblesCount', null, '');
