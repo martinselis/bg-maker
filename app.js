@@ -12,7 +12,6 @@ const state = {
     colors: ['#1a1a2e', '#16213e', '#0f3460'],
     stops: 2,
     gradientType: 'linear',
-    angle: 135,
     centerX: 50,
     pattern: 'none',
     seed: 42,
@@ -69,31 +68,19 @@ function drawGradient() {
         const r = Math.sqrt(Math.max(cx, w - cx) ** 2 + Math.max(cy, h - cy) ** 2);
         grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
     } else {
-        const a = state.angle * Math.PI / 180;
-        // Project canvas corners onto the gradient direction to find exact needed length
-        const cosA = Math.cos(a), sinA = Math.sin(a);
-        const corners = [
-            [0,0], [w,0], [w,h], [0,h]
-        ];
-        let minProj = Infinity, maxProj = -Infinity;
-        for (const [px, py] of corners) {
-            const proj = (px - cx) * cosA + (py - cy) * sinA;
-            if (proj < minProj) minProj = proj;
-            if (proj > maxProj) maxProj = proj;
-        }
-        const x1 = cx + cosA * minProj;
-        const y1 = cy + sinA * minProj;
-        const x2 = cx + cosA * maxProj;
-        const y2 = cy + sinA * maxProj;
-        grad = ctx.createLinearGradient(x1, y1, x2, y2);
+        // Horizontal gradient, left to right, center controls the midpoint
+        grad = ctx.createLinearGradient(0, 0, w, 0);
     }
+
+    const mid = state.centerX / 100;
 
     if (state.stops === 2) {
         grad.addColorStop(0, state.colors[0]);
+        grad.addColorStop(mid, state.colors[0]);
         grad.addColorStop(1, state.colors[1]);
     } else {
         grad.addColorStop(0, state.colors[0]);
-        grad.addColorStop(0.5, state.colors[1]);
+        grad.addColorStop(mid, state.colors[1]);
         grad.addColorStop(1, state.colors[2]);
     }
 
@@ -320,19 +307,12 @@ document.querySelectorAll('[data-gradient]').forEach(btn => {
         document.querySelectorAll('[data-gradient]').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         state.gradientType = btn.dataset.gradient;
-        document.getElementById('angle-field').style.display =
-            state.gradientType === 'linear' ? '' : 'none';
         render();
     });
 });
 
 // Angle
-const angleEl = document.getElementById('angle');
-angleEl.addEventListener('input', () => {
-    state.angle = parseInt(angleEl.value);
-    document.getElementById('angle-val').textContent = state.angle + '°';
-    render();
-});
+// (angle removed — gradient is always horizontal, controlled by Center slider)
 
 // Pattern selector
 const patternEl = document.getElementById('pattern');
