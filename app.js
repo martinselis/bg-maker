@@ -13,6 +13,8 @@ const state = {
     stops: 2,
     gradientType: 'linear',
     angle: 135,
+    centerX: 50,
+    centerY: 50,
     pattern: 'none',
     seed: 42,
     // Bubbles
@@ -61,13 +63,14 @@ function drawGradient() {
     let grad;
     const w = state.width, h = state.height;
 
+    const cx = w * state.centerX / 100;
+    const cy = h * state.centerY / 100;
+
     if (state.gradientType === 'radial') {
-        const cx = w / 2, cy = h / 2;
-        const r = Math.sqrt(cx * cx + cy * cy);
+        const r = Math.sqrt(Math.max(cx, w - cx) ** 2 + Math.max(cy, h - cy) ** 2);
         grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
     } else {
         const a = state.angle * Math.PI / 180;
-        const cx = w / 2, cy = h / 2;
         const len = Math.sqrt(w * w + h * h) / 2;
         const x1 = cx - Math.cos(a) * len;
         const y1 = cy - Math.sin(a) * len;
@@ -321,6 +324,10 @@ angleEl.addEventListener('input', () => {
     document.getElementById('angle-val').textContent = state.angle + '°';
     render();
 });
+
+// Center X/Y
+wireRange('center-x', 'centerX', v => v + '%');
+wireRange('center-y', 'centerY', v => v + '%');
 
 // Pattern selector
 const patternEl = document.getElementById('pattern');

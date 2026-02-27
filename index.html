@@ -79,6 +79,14 @@
                     <label>Angle <span id="angle-val">135°</span></label>
                     <input type="range" id="angle" min="0" max="360" value="135">
                 </div>
+                <div class="field">
+                    <label>Center X <span id="center-x-val">50%</span></label>
+                    <input type="range" id="center-x" min="0" max="100" value="50">
+                </div>
+                <div class="field">
+                    <label>Center Y <span id="center-y-val">50%</span></label>
+                    <input type="range" id="center-y" min="0" max="100" value="50">
+                </div>
             </section>
 
             <!-- Pattern -->
@@ -91,8 +99,6 @@
                         <option value="bubbles">Bubbles</option>
                         <option value="honeycomb">Honeycomb</option>
                         <option value="dots">Dots Grid</option>
-                        <option value="lines">Diagonal Lines</option>
-                        <option value="waves">Waves</option>
                     </select>
                 </div>
 
@@ -121,10 +127,35 @@
                         <input type="range" id="bubbles-blur" min="0" max="20" value="0">
                     </div>
                     <div class="field">
-                        <label>Color</label>
-                        <div class="color-input">
-                            <input type="color" id="bubbles-color" value="#ffffff">
-                            <input type="text" id="bubbles-color-hex" value="#ffffff" maxlength="7">
+                        <label>Color Mode</label>
+                        <div class="btn-group">
+                            <button class="btn active" data-bubbles-colormode="solid">Solid</button>
+                            <button class="btn" data-bubbles-colormode="gradient">Gradient</button>
+                        </div>
+                    </div>
+                    <div id="bubbles-solid-color">
+                        <div class="field">
+                            <label>Color</label>
+                            <div class="color-input">
+                                <input type="color" id="bubbles-color" value="#ffffff">
+                                <input type="text" id="bubbles-color-hex" value="#ffffff" maxlength="7">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="bubbles-gradient-colors" style="display:none">
+                        <div class="field">
+                            <label>From</label>
+                            <div class="color-input">
+                                <input type="color" id="bubbles-grad-from" value="#ffffff">
+                                <input type="text" id="bubbles-grad-from-hex" value="#ffffff" maxlength="7">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>To</label>
+                            <div class="color-input">
+                                <input type="color" id="bubbles-grad-to" value="#4a9eff">
+                                <input type="text" id="bubbles-grad-to-hex" value="#4a9eff" maxlength="7">
+                            </div>
                         </div>
                     </div>
                     <button class="btn btn-full" id="bubbles-randomize">🎲 Randomize</button>
@@ -152,10 +183,35 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label>Color</label>
-                        <div class="color-input">
-                            <input type="color" id="honeycomb-color" value="#ffffff">
-                            <input type="text" id="honeycomb-color-hex" value="#ffffff" maxlength="7">
+                        <label>Color Mode</label>
+                        <div class="btn-group">
+                            <button class="btn active" data-honeycomb-colormode="solid">Solid</button>
+                            <button class="btn" data-honeycomb-colormode="gradient">Gradient</button>
+                        </div>
+                    </div>
+                    <div id="honeycomb-solid-color">
+                        <div class="field">
+                            <label>Color</label>
+                            <div class="color-input">
+                                <input type="color" id="honeycomb-color" value="#ffffff">
+                                <input type="text" id="honeycomb-color-hex" value="#ffffff" maxlength="7">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="honeycomb-gradient-colors" style="display:none">
+                        <div class="field">
+                            <label>From</label>
+                            <div class="color-input">
+                                <input type="color" id="honeycomb-grad-from" value="#ffffff">
+                                <input type="text" id="honeycomb-grad-from-hex" value="#ffffff" maxlength="7">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>To</label>
+                            <div class="color-input">
+                                <input type="color" id="honeycomb-grad-to" value="#4a9eff">
+                                <input type="text" id="honeycomb-grad-to-hex" value="#4a9eff" maxlength="7">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -175,68 +231,35 @@
                         <input type="range" id="dots-opacity" min="0" max="100" value="15">
                     </div>
                     <div class="field">
-                        <label>Color</label>
-                        <div class="color-input">
-                            <input type="color" id="dots-color" value="#ffffff">
-                            <input type="text" id="dots-color-hex" value="#ffffff" maxlength="7">
+                        <label>Color Mode</label>
+                        <div class="btn-group">
+                            <button class="btn active" data-dots-colormode="solid">Solid</button>
+                            <button class="btn" data-dots-colormode="gradient">Gradient</button>
                         </div>
                     </div>
-                </div>
-
-                <!-- Lines controls -->
-                <div class="pattern-controls" id="ctrl-lines" style="display:none">
-                    <div class="field">
-                        <label>Spacing <span id="lines-spacing-val">20</span></label>
-                        <input type="range" id="lines-spacing" min="5" max="100" value="20">
-                    </div>
-                    <div class="field">
-                        <label>Thickness <span id="lines-thickness-val">1</span></label>
-                        <input type="range" id="lines-thickness" min="1" max="10" value="1">
-                    </div>
-                    <div class="field">
-                        <label>Angle <span id="lines-angle-val">45°</span></label>
-                        <input type="range" id="lines-angle" min="0" max="180" value="45">
-                    </div>
-                    <div class="field">
-                        <label>Opacity <span id="lines-opacity-val">0.15</span></label>
-                        <input type="range" id="lines-opacity" min="0" max="100" value="15">
-                    </div>
-                    <div class="field">
-                        <label>Color</label>
-                        <div class="color-input">
-                            <input type="color" id="lines-color" value="#ffffff">
-                            <input type="text" id="lines-color-hex" value="#ffffff" maxlength="7">
+                    <div id="dots-solid-color">
+                        <div class="field">
+                            <label>Color</label>
+                            <div class="color-input">
+                                <input type="color" id="dots-color" value="#ffffff">
+                                <input type="text" id="dots-color-hex" value="#ffffff" maxlength="7">
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Waves controls -->
-                <div class="pattern-controls" id="ctrl-waves" style="display:none">
-                    <div class="field">
-                        <label>Wave Count <span id="waves-count-val">5</span></label>
-                        <input type="range" id="waves-count" min="1" max="20" value="5">
-                    </div>
-                    <div class="field">
-                        <label>Amplitude <span id="waves-amplitude-val">30</span></label>
-                        <input type="range" id="waves-amplitude" min="5" max="100" value="30">
-                    </div>
-                    <div class="field">
-                        <label>Frequency <span id="waves-frequency-val">3</span></label>
-                        <input type="range" id="waves-frequency" min="1" max="20" value="3">
-                    </div>
-                    <div class="field">
-                        <label>Thickness <span id="waves-thickness-val">2</span></label>
-                        <input type="range" id="waves-thickness" min="1" max="10" value="2">
-                    </div>
-                    <div class="field">
-                        <label>Opacity <span id="waves-opacity-val">0.15</span></label>
-                        <input type="range" id="waves-opacity" min="0" max="100" value="15">
-                    </div>
-                    <div class="field">
-                        <label>Color</label>
-                        <div class="color-input">
-                            <input type="color" id="waves-color" value="#ffffff">
-                            <input type="text" id="waves-color-hex" value="#ffffff" maxlength="7">
+                    <div id="dots-gradient-colors" style="display:none">
+                        <div class="field">
+                            <label>From</label>
+                            <div class="color-input">
+                                <input type="color" id="dots-grad-from" value="#ffffff">
+                                <input type="text" id="dots-grad-from-hex" value="#ffffff" maxlength="7">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>To</label>
+                            <div class="color-input">
+                                <input type="color" id="dots-grad-to" value="#4a9eff">
+                                <input type="text" id="dots-grad-to-hex" value="#4a9eff" maxlength="7">
+                            </div>
                         </div>
                     </div>
                 </div>
