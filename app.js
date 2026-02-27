@@ -14,7 +14,6 @@ const state = {
     gradientType: 'linear',
     angle: 135,
     centerX: 50,
-    centerY: 50,
     pattern: 'none',
     seed: 42,
     // Bubbles
@@ -64,7 +63,7 @@ function drawGradient() {
     const w = state.width, h = state.height;
 
     const cx = w * state.centerX / 100;
-    const cy = h * state.centerY / 100;
+    const cy = h / 2;
 
     if (state.gradientType === 'radial') {
         const r = Math.sqrt(Math.max(cx, w - cx) ** 2 + Math.max(cy, h - cy) ** 2);
@@ -325,10 +324,6 @@ angleEl.addEventListener('input', () => {
     render();
 });
 
-// Center X/Y
-wireRange('center-x', 'centerX', v => v + '%');
-wireRange('center-y', 'centerY', v => v + '%');
-
 // Pattern selector
 const patternEl = document.getElementById('pattern');
 patternEl.addEventListener('change', () => {
@@ -382,6 +377,9 @@ function wireNumber(id, stateKey) {
         render();
     });
 }
+
+// Gradient center
+wireRange('center-x', 'centerX', v => v + '%');
 
 // Bubbles
 wireRange('bubbles-count', 'bubblesCount', null, '');
