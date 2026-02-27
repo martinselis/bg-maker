@@ -70,11 +70,21 @@ function drawGradient() {
         grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
     } else {
         const a = state.angle * Math.PI / 180;
-        const len = Math.sqrt(w * w + h * h) / 2;
-        const x1 = cx - Math.cos(a) * len;
-        const y1 = cy - Math.sin(a) * len;
-        const x2 = cx + Math.cos(a) * len;
-        const y2 = cy + Math.sin(a) * len;
+        // Project canvas corners onto the gradient direction to find exact needed length
+        const cosA = Math.cos(a), sinA = Math.sin(a);
+        const corners = [
+            [0,0], [w,0], [w,h], [0,h]
+        ];
+        let minProj = Infinity, maxProj = -Infinity;
+        for (const [px, py] of corners) {
+            const proj = (px - cx) * cosA + (py - cy) * sinA;
+            if (proj < minProj) minProj = proj;
+            if (proj > maxProj) maxProj = proj;
+        }
+        const x1 = cx + cosA * minProj;
+        const y1 = cy + sinA * minProj;
+        const x2 = cx + cosA * maxProj;
+        const y2 = cy + sinA * maxProj;
         grad = ctx.createLinearGradient(x1, y1, x2, y2);
     }
 
